@@ -1,4 +1,6 @@
-﻿namespace ToDoList
+﻿using System.ComponentModel.Design;
+
+namespace ToDoList
 {
     internal class Program
     {
@@ -22,20 +24,20 @@
             }
             public void MarkAsCompleted()
             {
-                if (CheckTaskCount() == true)
+                Console.WriteLine("Enter task number to mark as completed");
+                int choice = int.Parse(Console.ReadLine());
+                if (CheckTaskCount() == true && CheckTaskIsExist(choice) == true)
                 {
-                    Console.WriteLine("Enter task number to mark as completed");
-                    int choice = int.Parse(Console.ReadLine());
                     tasks[choice - 1].IsCompleted = true;
                     Console.WriteLine($"Task {tasks[choice - 1].Description} is now completed.");
                 }
             }
             public void RemoveTask()
             {
-                if (CheckTaskCount() == true)
+                Console.WriteLine("Enter task number to remove");
+                int choice = int.Parse(Console.ReadLine());
+                if (CheckTaskCount() == true && CheckTaskIsExist(choice) == true)
                 {
-                    Console.WriteLine("Enter task number to remove");
-                    int choice = int.Parse(Console.ReadLine());
                     string taskname = tasks[choice - 1].Description;
                     tasks.RemoveAt(choice - 1);
                     Console.WriteLine($"Task {taskname} removed.");
@@ -46,6 +48,15 @@
                 if (tasks.Count == 0)
                 {
                     Console.WriteLine("No Tasks available");
+                    return false;
+                }
+                return true;
+            }
+            public bool CheckTaskIsExist(int TaskId)
+            {
+                if (TaskId == 0 || TaskId > tasks.Count)
+                {
+                    Console.WriteLine($"Task with id {TaskId} not exist to remove");
                     return false;
                 }
                 return true;
