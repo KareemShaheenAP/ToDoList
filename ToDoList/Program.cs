@@ -5,39 +5,57 @@
         public class ToDoList
         {
             public List<TaskItem> tasks = new List<TaskItem>();
-            public void AddTask(string description,int serial)
+            public void AddTask(string description, int serial)
             {
                 tasks.Add(new TaskItem(description, serial));
                 Console.WriteLine("Task added successfully.");
             }
             public void ViewTasks()
             {
-                for (int i = 0; i < tasks.Count ; i++) 
+                if (CheckTaskCount() == true)
                 {
-                    Console.WriteLine($"{i+1}. {tasks[i].Description} - {tasks[i].IsCompleted}");
+                    for (int i = 0; i < tasks.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {tasks[i].Description} - {tasks[i].IsCompleted}");
+                    }
                 }
             }
             public void MarkAsCompleted()
             {
-                Console.WriteLine("Enter task number to mark as completed");
-                int choice = int.Parse( Console.ReadLine() );
-                tasks[choice - 1].IsCompleted = true;
-                Console.WriteLine($"Task {tasks[choice - 1].Description} is now completed.");
+                if (CheckTaskCount() == true)
+                {
+                    Console.WriteLine("Enter task number to mark as completed");
+                    int choice = int.Parse(Console.ReadLine());
+                    tasks[choice - 1].IsCompleted = true;
+                    Console.WriteLine($"Task {tasks[choice - 1].Description} is now completed.");
+                }
             }
             public void RemoveTask()
             {
-                Console.WriteLine("Enter task number to remove");
-                int choice = int.Parse(Console.ReadLine());
-                string taskname = tasks[choice -1].Description;
-                tasks.RemoveAt(choice - 1);
-                Console.WriteLine($"Task {taskname} removed.");
+                if (CheckTaskCount() == true)
+                {
+                    Console.WriteLine("Enter task number to remove");
+                    int choice = int.Parse(Console.ReadLine());
+                    string taskname = tasks[choice - 1].Description;
+                    tasks.RemoveAt(choice - 1);
+                    Console.WriteLine($"Task {taskname} removed.");
+                }
+            }
+            public bool CheckTaskCount()
+            {
+                if (tasks.Count == 0)
+                {
+                    Console.WriteLine("No Tasks available");
+                    return false;
+                }
+                return true;
             }
         }
         public class TaskItem
         {
             public string Description;
             public bool IsCompleted;
-            public TaskItem(string desc,int serial)
+            public TaskItem(string desc, int serial)
             {
                 Description = desc;
                 IsCompleted = false;
