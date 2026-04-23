@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Design;
+﻿using System.ComponentModel;
+using System.ComponentModel.Design;
 
 namespace ToDoList
 {
@@ -72,6 +73,13 @@ namespace ToDoList
                 IsCompleted = false;
             }
         }
+        enum ListMenu{
+            [Description("1. Add Task")] Add,
+            [Description("2. View Tasks")] View,
+            [Description("3. Mark Task as Completed")] Complete,
+            [Description("4. Remove Task")] Remove,
+            [Description("5. Exit")] Exit,
+        }
         static void Main(string[] args)
         {
             ToDoList toDoList = new ToDoList();
@@ -84,26 +92,28 @@ namespace ToDoList
                 Console.WriteLine("4. Remove Task");
                 Console.WriteLine("5. Exit");
                 Console.Write("Choose an option: ");
-                int selection = int.Parse(Console.ReadLine());
-                switch (selection)
+                var selection = int.TryParse(Console.ReadLine() , out int entry);
+                ListMenu listmenu = (ListMenu)entry -1;
+                switch (listmenu)
                 {
-                    case 1:
+                    case ListMenu.Add:
                         Console.WriteLine("Enter Task Description");
                         string desc = Console.ReadLine();
                         toDoList.AddTask(desc, toDoList.tasks.Count + 1);
                         break;
-                    case 2:
+                    case ListMenu.View:
                         toDoList.ViewTasks();
                         break;
-                    case 3:
+                    case ListMenu.Complete:
                         toDoList.MarkAsCompleted();
                         break;
-                    case 4:
+                    case ListMenu.Remove:
                         toDoList.RemoveTask();
                         break;
-                    case 5:
+                    case ListMenu.Exit:
                         return;
                     default:
+                        Console.WriteLine("Invalid Selection");
                         break;
                 }
             }
